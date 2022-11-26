@@ -3,7 +3,7 @@ from pygame.locals import QUIT
 
 pygame.init()
 
-DISPLAY = pygame.display.set_mode((400, 800))
+DISPLAY = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Car Racing Game')
 
 
@@ -20,10 +20,10 @@ class Car():
         self.x = x
         self.y = y
 
-    def move_forward(self):
+    def move_left(self):
         self.x -= 10    
 
-    def move_backward(self):
+    def move_right(self):
         self.x += 10
 
     def move_up(self):
@@ -67,13 +67,20 @@ while True:
       
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                car1.move_forward()
+                if car1.x > 0 : 
+                    car1.move_left()
+                
             if event.key == pygame.K_d:
-                car1.move_backward()
+                if car1.x < DISPLAY.get_width() - car1.car.get_width() :
+                    car1.move_right()
+                
             if event.key == pygame.K_w:
-                car1.move_up()
+                if car1.y > 0 :
+                    car1.move_up()
+                    
             if event.key == pygame.K_s:
-                car1.move_down()
+                if car1.y < DISPLAY.get_height() - car1.car.get_height():
+                    car1.move_down()
 
     roads = [road1,road2,road3,road4,road5,road6]
     for road in roads:
