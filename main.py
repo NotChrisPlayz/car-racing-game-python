@@ -1,5 +1,6 @@
 import pygame, sys
 from pygame.locals import QUIT
+import random
 
 pygame.init()
 
@@ -9,14 +10,19 @@ pygame.display.set_caption('Car Racing Game')
 # colors
 BLACK = (0, 0, 0)
 
-class Road():
+class Road:
     def __init__(self,x,y):
         self.x = x
         self.y = y
         self.road = pygame.transform.scale(pygame.image.load("road.png"),[400,400])
 
+class Obs:
+    def __init__(self , x , y ):
+        self.x = x
+        self.y = y 
+        self.obs =  pygame.transform.scale(pygame.image.load("obs1.png"),[50,50])
 
-class Car():
+class Car:
     def __init__(self, x, y):
         self.car = pygame.transform.scale(pygame.image.load("car.jpg"), [50,100])
         self.x = x
@@ -36,9 +42,25 @@ class Car():
 
     def display(self):
         DISPLAY.blit(self.car, [self.x, self.y])
+
+class OppositeCar(Car):
+    def __init__(self, x, y):
+        self.car = pygame.transform.scale(pygame.image.load("oppositeCar.png"), [50,100])
+        self.x = x
+        self.y = y
+
+    def move(self):
+        self.y += 3
+
         
 
 car1 = Car(100,100)
+car2 = OppositeCar(300,0)
+
+
+obs1 = Obs(random.randint(1,350),-150)
+obs2 = Obs(random.randint(1,350),-50)
+obs3 = Obs(random.randint(1,350),-300 )
 
 road1 = Road(0,0)
 road2 = Road(0,100)
@@ -48,23 +70,30 @@ road5 = Road(0,400)
 road6 = Road(0,500)
 
 roads = [road1,road2,road3,road4,road5,road6]
+obss = [obs1 , obs2,obs3]
 
 clock = pygame.time.Clock()
 
 # functions
 
 def displayRoads():
-    DISPLAY.blit(road1.road, (0,road1.y))
-    DISPLAY.blit(road2.road, (0,road2.y))
-    DISPLAY.blit(road3.road, (0,road3.y))
-    DISPLAY.blit(road4.road, (0,road4.y))
-    DISPLAY.blit(road5.road, (0,road5.y))
-    DISPLAY.blit(road6.road, (0,road6.y))
+    for road in roads:  
+        DISPLAY.blit(road.road, (0,road.y))
+   
+    for obs in obss:
+         DISPLAY.blit(obs.obs , (obs.x , obs.y))
 
 def displayCars():
     car1.display()
+    car2.display()
+    car2.move()
 
 def shiftRoad():
+    for obs in obss:
+        obs.y += 1
+        if obs.y > 400 :
+            obs.x = random.randint(1,350)
+            obs.y = - 50
     for road in roads:
         road.y += 1 
         if road.y > 400:
