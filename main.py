@@ -7,6 +7,11 @@ pygame.init()
 DISPLAY = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Car Racing Game')
 
+font = pygame.font.SysFont("Times New Roman",25)
+bigFont = pygame.font.SysFont("Times New Roman" , 40)
+
+LosingText = bigFont.render("GAME OVER",False, "black")
+
 # colors
 BLACK = (0, 0, 0)
 
@@ -36,6 +41,7 @@ class Car:
                                           [50, 100])
         self.x = x
         self.y = y
+        self.condition = True
 
     def move_left(self):
         self.x -= 10
@@ -86,6 +92,11 @@ clock = pygame.time.Clock()
 
 # functions
 
+def gameOver():
+    car1.condition = False
+    DISPLAY.fill("white")
+    DISPLAY.blit(LosingText,(10,10))
+
 
 def collision():
     car_top_left = car1.x
@@ -96,13 +107,13 @@ def collision():
         obs_top_left = obs.x
         obs_top_right = obs.x + 50
 
-        if car1.y == obs.y:
+        if car1.y >= obs.y and car1.y <= obs.y + 50:
 
             if car_top_left >= obs_top_left and car_top_left <= obs_top_right:
-                print("Collision")
+                gameOver()
 
             if car_top_right <= obs_top_right and car_top_right >= obs_top_left:
-                print("Collision")
+                gameOver()
 
 
 def displayRoads():
@@ -163,4 +174,6 @@ while True:
     displayCars()
     handleMovement()
     shiftRoad()
+    if car1.condition == False:
+        gameOver()
     pygame.display.update()
