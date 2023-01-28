@@ -42,6 +42,7 @@ class Car:
         self.x = x
         self.y = y
         self.condition = True
+        self.score = 0
 
     def move_left(self):
         self.x -= 10
@@ -96,6 +97,8 @@ def gameOver():
     car1.condition = False
     DISPLAY.fill("white")
     DISPLAY.blit(LosingText,(10,10))
+    scoreText = bigFont.render(str(car1.score),False, "black")
+    DISPLAY.blit(scoreText,(10,100))
 
 
 def collision():
@@ -107,7 +110,7 @@ def collision():
         obs_top_left = obs.x
         obs_top_right = obs.x + 50
 
-        if car1.y >= obs.y and car1.y <= obs.y + 50:
+        if (car1.y >= obs.y and car1.y <= obs.y + 50)or(car1.y + 100 >= obs.y and car1.y + 100 <= obs.y + 50):
 
             if car_top_left >= obs_top_left and car_top_left <= obs_top_right:
                 gameOver()
@@ -176,4 +179,6 @@ while True:
     shiftRoad()
     if car1.condition == False:
         gameOver()
+    else:
+        car1.score += 1
     pygame.display.update()
