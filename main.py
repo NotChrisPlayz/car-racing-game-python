@@ -7,6 +7,8 @@ pygame.mixer.init()
 
 bgMusic = pygame.mixer.Sound("backgroundMusic.mp3")
 pygame.mixer.Sound.play(bgMusic)
+crashSound = pygame.mixer.Sound("crashSound.mp3")
+
 
 DISPLAY = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Car Racing Game')
@@ -98,6 +100,7 @@ clock = pygame.time.Clock()
 # functions
 
 def gameOver():
+    pygame.mixer.Sound.play(crashSound)
     car1.condition = False
     DISPLAY.fill("white")
     DISPLAY.blit(LosingText,(10,10))
