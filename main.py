@@ -3,6 +3,10 @@ from pygame.locals import QUIT
 import random
 
 pygame.init()
+pygame.mixer.init()
+
+bgMusic = pygame.mixer.Sound("backgroundMusic.mp3")
+pygame.mixer.Sound.play(bgMusic)
 
 DISPLAY = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Car Racing Game')
