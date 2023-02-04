@@ -106,7 +106,17 @@ def gameOver():
     DISPLAY.blit(LosingText,(10,10))
     scoreText = bigFont.render(str(car1.score),False, "black")
     DISPLAY.blit(scoreText,(10,100))
-
+    file = open("highScore.txt","r")
+    highScore = file.read()
+    file.close()
+    highScore = int(highScore)
+    if highScore < car1.score:
+        print("New Highscore")
+        file = open("highScore.txt","w")
+        file.write(str(car1.score))
+        file.close()
+    else:
+        print("play again")
 
 def collision():
     car_top_left = car1.x
